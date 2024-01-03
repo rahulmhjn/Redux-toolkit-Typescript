@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useAppDispatch, useAppSelector } from './app/hooks';
-import { incremented, amountAdded } from './features/counter/counterSlice'
+import { incremented, amountAdded } from './features/counter/counterSlice';
+import { useFetchBreedsQuery } from './features/dogs/dogsApiSlice';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -18,6 +19,8 @@ function App() {
     dispatch(amountAdded(3));
   }
 
+  const { data = [], isFetching } = useFetchBreedsQuery(10);
+
   return (
     <>
       <div>
@@ -33,9 +36,27 @@ function App() {
         <button onClick={handleClick}>
           count is {count}
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <div>
+          <p>Number of dogs: {data.length}</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Picture</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((breed) => (
+                <tr key={breed.id}>
+                  <td>{breed.name}</td>
+                  <td>
+                    <img src={breed.image.url} alt={breed.name} height={250} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
