@@ -1,10 +1,22 @@
-import { useState } from 'react'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useAppDispatch, useAppSelector } from './app/hooks';
+import { incremented, amountAdded } from './features/counter/counterSlice'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const dispatch = useAppDispatch();
+
+  const count = useAppSelector((state) => state.counter.value);
+
+  const handleClick = () => {
+    // increment by 1
+    // dispatch(incremented());
+
+    // increment by a fixed amount
+    dispatch(amountAdded(3));
+  }
 
   return (
     <>
@@ -18,7 +30,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button onClick={handleClick}>
           count is {count}
         </button>
         <p>
